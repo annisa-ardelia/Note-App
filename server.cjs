@@ -1,25 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Note = require("./models/NoteSchema");
+const Note = require("./models/NoteSchema.cjs");
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = 4000; 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
+    .then(() => console.log('Connected to MongoDB Annisa'))
     .catch(err => console.log(err));
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error: '));
-db.once('open', function(){
-    console.log('Connected to MongoDB Annisa');
-});
 
 // Create a note
 app.post("/addNote", async (req, res) => {
@@ -33,11 +33,21 @@ app.post("/addNote", async (req, res) => {
     }
 });
 
-// Get a note by ID
-app.get("/note/:_id", async (req, res) => {
+// Get all notes
+app.get("/notes", async (req, res) => {
     try {
-        const _id = req.params._id;
-        const note = await Note.findOne({ _id });
+        const notes = await Note.find();
+        res.status(200).json({ message: "Notes retrieved successfully", data: notes });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+// Get a note by ID
+app.get("/note/:id", async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        const note = await Note.findOne({ id });
         if (!note) {
             return res.status(404).json({ message: "Note not found" });
         }
@@ -48,12 +58,12 @@ app.get("/note/:_id", async (req, res) => {
 });
 
 // Update a note by ID
-app.put("/updateNote/:_id", async (req, res) => {
+app.put("/updateNote/:id", async (req, res) => {
     try {
-        const _id = req.params._id;
+        const id = parseInt(req.params.id, 10);
         const { title, body } = req.body;
 
-        const existingNote = await Note.findOne({ _id });
+        const existingNote = await Note.findOne({ id });
 
         if (!existingNote) {
             return res.status(404).json({ message: "Note not found" });
@@ -71,10 +81,10 @@ app.put("/updateNote/:_id", async (req, res) => {
 });
 
 // Delete a note by ID
-app.delete("/deleteNote/:_id", async (req, res) => {
+app.delete("/deleteNote/:id", async (req, res) => {
     try {
-        const _id = req.params._id;
-        const deletedNote = await Note.findOne({ _id });
+        const id = parseInt(req.params.id, 10);
+        const deletedNote = await Note.findOneAndDelete({ id });
         if (!deletedNote) {
             return res.status(404).json({ message: "Note not found" });
         }
