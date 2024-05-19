@@ -1,8 +1,22 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Simple Note App
 
-Currently, two official plugins are available:
+This is a simple Note App using Express.js as the backend and React.js as the frontend. The database MongoDB is accessed using axios.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### Create .env file
+Add your MongoDB connection string
+
+```MONGO_URI=[your_mongodb_connection_string]```
+
+#### Install packages
+
+```npm install```
+
+#### Backend run:
+
+```node server.cjs```
+
+#### Frontend run:
+
+```npm run dev```
+
