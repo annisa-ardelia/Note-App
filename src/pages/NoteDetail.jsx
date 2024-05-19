@@ -25,9 +25,9 @@ const NoteDetail = () => {
   }
 
   return (
-    <div className="bg-notsoblack p-4 w-full h-screen flex flex-col items-center justify-center">
-      <h1 className="text-jade text-3xl font-bold mb-4"> {note.title}</h1>
-      <p className="text-jade mb-2"> {note.body}</p>
+    <div className="bg-notsoblack p-16 w-full h-screen flex flex-col">
+      <h1 className="text-jade text-4xl font-bold mb-4"> {note.title}</h1>
+      <p className="text-jade mb-2 text-xl"> {note.body}</p>
     </div>
   );
 };

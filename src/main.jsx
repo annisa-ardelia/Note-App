@@ -5,6 +5,7 @@ import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NoteDetail from "./pages/NoteDetail.jsx";
+//import NoteAdd from "./pages/NoteAdd.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     path: "note/:id",
     element: <NoteDetail />,
   },
+  /*{
+    path: "addNote",
+    element: <NoteAdd />,
+  },*/
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
